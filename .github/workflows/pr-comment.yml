@@ -15,7 +15,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            console.log(process.env.artifacts_run_id);
+            console.log(process.env);
             const id = setInterval(async () => {
                 var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
                    owner: context.repo.owner,
