@@ -1,4 +1,6 @@
 on:
+  workflow_run: 
+    workflows: ["build_artifacts"]
   # Trigger the workflow on push or pull request
   pull_request:
     branches:
