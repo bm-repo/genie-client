@@ -15,14 +15,47 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-           var workflows = await github.rest.actions.listWorkflowRunsForRepo({
+           let counter = 0;
+           const intervalId = setInterval(() => {
+              ++counter;
+              var workflows = await github.rest.actions.listWorkflowRunsForRepo({
+                         owner: context.repo.owner,
+                         repo: context.repo.repo,
+                         branch: context.payload.pull_request.head.ref,
+                         per_page: 100,
+                         actor: context.payload.sender.login
+                      });
+              const buildArtifactWorkflows = workflows.data.workflow_runs.filter(workflow => 
+                  workflow.name === 'build_artifacts');
+              const filtered = buildArtifactWorkflows.filter(workflow => workflow.status !== 'success');
+              
+              if (filtered.length) {
+                  if (count >= 15) {
+                      clearInterval(intervalId);
+                  } else {
+                      console.log('Sleeping for 2 seconds, will retry after 2 seconds.');
+                  }
+              } else {
+                  var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
                        owner: context.repo.owner,
                        repo: context.repo.repo,
-                       branch: context.payload.pull_request.head.ref,
-                       per_page: 100,
-                       actor: context.payload.sender.login
+                       run_id: buildArtifactWorkflows[0].id
                     });
-            const filtered = workflows.data.workflow_runs.filter(workflow => workflow.name === 'build_artifacts');
-            console.log(`${filtered[0].id}-${filtered[0].status}`);
-            console.log(JSON.stringify(workflows.data.workflow_runs.map(workflow => `${workflow.name}-${workflow.actor.login}-${workflow.id}`)));
-         
+                    var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
+                      return artifact.name === `testcases-artifact-${context.issue.number}`
+                    })[0];
+                    var downloadResponse = await github.rest.actions.downloadArtifact({
+                       owner: context.repo.owner,
+                       repo: context.repo.repo,
+                       artifact_id: matchArtifact.id,
+                       archive_format: 'zip'
+                    });
+                    await github.rest.issues.createComment({
+                      issue_number: context.issue.number,
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      body: `Unit Test cases for this PR are generated. Click [here](${downloadResponse.url}) to download the testcases.`
+                    });
+                  clearInterval(intervalId);
+              }
+           }, 2000);         
