@@ -24,7 +24,7 @@ jobs:
       # Checks-out test-generater extensions
       - uses: actions/checkout@v3
         with:
-          repository: 'bm-repo/chatgpt-extension'
+          repository: 'bm-repo/chatgpt-actions'
           branch: 'master'
           github-token: ${{github.token}}
       - uses: actions/checkout@v3
