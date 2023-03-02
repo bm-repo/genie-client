@@ -15,7 +15,6 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-           console.log(`${context.payload.sender.login}-${context.payload.pull_request.head.ref}`);
            var workflows = await github.rest.actions.listWorkflowRunsForRepo({
                        owner: context.repo.owner,
                        repo: context.repo.repo,
@@ -24,5 +23,7 @@ jobs:
                        status: 'success',
                        actor: context.payload.sender.login
                     });
-                console.log(JSON.stringify(workflows.data.workflow_runs.map(workflow => `${workflow.workflow_id}-${workflow.actor.login}-${workflow.id}`)));
+            const filtered = workflows.data.workflow_runs.filter(workflow => workflow.name === 'build_artifacts');
+            console.log(filtered.length);
+            console.log(JSON.stringify(workflows.data.workflow_runs.map(workflow => `${workflow.name}-${workflow.actor.login}-${workflow.id}`)));
          
