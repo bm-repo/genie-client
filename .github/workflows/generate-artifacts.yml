@@ -5,20 +5,20 @@ on:
       - develop
 
 jobs:
-  artifacts:
+  bundle_artifacts_and_notify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
+      - name: 'Generate Tests'
+        uses: actions/checkout@v3
       - run: mkdir -p path/to/artifact
-
       - run: echo hello1 > path/to/artifact/test_file1.txt
       - run: echo hello2 > path/to/artifact/test_file2.txt
 
-      - name: Tar files
+      - name: Tar test files
         run: tar -cvf testcases.tar path/to/artifact
 
+      - name: Upload test files as artifact
       - uses: actions/upload-artifact@v3
         with:
           name: testcases-artifact
-          path: testcases.tar
+          path: ${{github.event.number}}_tests.tar
