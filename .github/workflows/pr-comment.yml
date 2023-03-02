@@ -27,14 +27,14 @@ jobs:
                       });
               const buildArtifactWorkflows = workflows.data.workflow_runs.filter(workflow => 
                   workflow.name === 'build_artifacts');
-              console.log(JSON.stringify(buildArtifactWorkflows.map(workflow => `${workflow.id}-${workflow.status}-${workflow.name}`)));
               if (buildArtifactWorkflows[0].status !== 'completed') {
                   if (counter >= 15) {
                       clearInterval(intervalId);
                   } else {
-                      console.log('Sleeping for 2 seconds, will retry after 2 seconds.');
+                      console.log('Sleeping for 5 seconds, will retry after 5 seconds.');
                   }
               } else {
+                  clearInterval(intervalId);
                   var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
                        owner: context.repo.owner,
                        repo: context.repo.repo,
@@ -55,6 +55,5 @@ jobs:
                       repo: context.repo.repo,
                       body: `Unit Test cases for this PR are generated. Click [here](${downloadResponse.url}) to download the testcases.`
                     });
-                  clearInterval(intervalId);
               }
-           }, 2000);         
+           }, 5000);         
