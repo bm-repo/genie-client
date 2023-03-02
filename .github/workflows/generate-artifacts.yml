@@ -13,10 +13,6 @@ jobs:
       - run: mkdir -p path/to/artifact
       - run: echo hello1 > path/to/artifact/test_file1.txt
       - run: echo hello2 > path/to/artifact/test_file2.txt
-      - run: echo ${{github.run_id}}
-      - run: echo ${{github.event.repo.name}}
-      - run: echo $GITHUB_REPOSITORY_OWNER
-      - run: printenv
       
       - name: Tar test files
         run: tar -cvf ${{github.event.number}}_tests.tar path/to/artifact
@@ -36,14 +32,11 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            console.log(JSON.stringify(github.event));
-            console.log(JSON.stringify(context));
             var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
                owner: context.repo.owner,
                repo: context.repo.repo,
-               run_id: 4311737723
+               run_id: context.runId
             });
-            console.log(JSON.stringify(artifacts));
             var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
               return artifact.name == `testcases-artifact-${context.issue.number}`
             })[0];
