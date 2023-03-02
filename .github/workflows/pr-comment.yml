@@ -16,7 +16,7 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
            let counter = 0;
-           const intervalId = setInterval(() => {
+           const intervalId = setInterval(async () => {
               ++counter;
               var workflows = await github.rest.actions.listWorkflowRunsForRepo({
                          owner: context.repo.owner,
