@@ -27,9 +27,8 @@ jobs:
                       });
               const buildArtifactWorkflows = workflows.data.workflow_runs.filter(workflow => 
                   workflow.name === 'build_artifacts');
-              const filtered = buildArtifactWorkflows.filter(workflow => workflow.status !== 'success');
               
-              if (filtered.length) {
+              if (buildArtifactWorkflows[0].status !== 'success') {
                   if (counter >= 15) {
                       clearInterval(intervalId);
                   } else {
