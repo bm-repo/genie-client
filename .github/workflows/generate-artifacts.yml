@@ -44,9 +44,16 @@ jobs:
             var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
               return artifact.name === `testcases-artifact-${context.issue.number}`
             })[0];
+            var downloadResponse = await github.rest.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip'
+            });
+            console.log(JSON.stringify(downloadResponse));
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `Unit Test cases for this PR are generated at ${matchArtifact.archive_download_url}. Click on the link to download the testcases.`
+              body: `Unit Test cases for this PR are generated at ${downloadResponse.headers.Location}. Click on the link to download the testcases.`
             })
