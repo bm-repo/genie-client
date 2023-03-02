@@ -34,12 +34,9 @@ jobs:
                repo: context.repo.repo,
                run_id: ${{github.run_id}},
             });
-            var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
-              return artifact.name == '${{github.event.number}}-testcases-artifact'
-            })[0];
             await github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: matchArtifact.archive_download_url
+              body: artifacts.data.artifacts[0].archive_download_url
             })
