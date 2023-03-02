@@ -14,7 +14,7 @@ jobs:
       - run: mkdir -p path/to/artifact
       - run: echo hello1 > path/to/artifact/test_file1.txt
       - run: echo hello2 > path/to/artifact/test_file2.txt
-      - run: export artifacts_run_id=${{github.event.runId}}
+      - run: export artifacts_run_id=4312816749
       - run: echo $artifacts_run_id
       
       - name: Tar test files
