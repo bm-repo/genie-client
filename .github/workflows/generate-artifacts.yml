@@ -1,3 +1,4 @@
+name: build_artifacts
 on:
   pull_request:
     branches:
@@ -5,7 +6,7 @@ on:
       - develop
 
 jobs:
-  bundle_artifacts:
+  build_artifacts:
     runs-on: ubuntu-latest
     steps:
       - name: Generating tests
