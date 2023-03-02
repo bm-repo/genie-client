@@ -44,11 +44,10 @@ jobs:
             var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
               return artifact.name === `testcases-artifact-${context.issue.number}`
             })[0];
-            var downloadResponse = await github.rest.actions.downloadArtifact({
+            var downloadResponse = await github.rest.actions.getArtifact({
                owner: context.repo.owner,
                repo: context.repo.repo,
-               artifact_id: matchArtifact.id,
-               archive_format: 'zip'
+               artifact_id: matchArtifact.id
             });
             console.log(JSON.stringify(downloadResponse));
             await github.rest.issues.createComment({
