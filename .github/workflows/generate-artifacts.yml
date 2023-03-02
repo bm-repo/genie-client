@@ -35,6 +35,9 @@ jobs:
               script: |
                 var workflows = await github.rest.actions.listWorkflowRunsForRepo({
                        owner: context.repo.owner,
-                       repo: context.repo.repo
+                       repo: context.repo.repo,
+                       branch: 'patch-1',
+                       perPage: 100,
+                       status: 'success'
                     });
-                console.log(JSON.stringify(workflows)); 
+                console.log(JSON.stringify(workflows.data.workflow_runs.map(workflow => `${workflow.workflow_id}-${workflow.actor.login}`))); 
