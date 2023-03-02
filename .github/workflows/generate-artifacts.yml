@@ -37,7 +37,7 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             console.log(JSON.stringify(github.event));
-            console.log(JSON.stringify(context);
+            console.log(JSON.stringify(context));
             var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
                owner: context.repo.owner,
                repo: context.repo.repo,
