@@ -33,7 +33,7 @@ jobs:
             with:
               github-token: ${{secrets.GITHUB_TOKEN}}
               script: |
-                var workflows = await github.rest.actions.listWorkflowRuns({
+                var workflows = await github.rest.actions.listWorkflowRunsForRepo({
                        owner: context.repo.owner,
                        repo: context.repo.repo
                     });
