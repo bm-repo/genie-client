@@ -1,4 +1,6 @@
 on:
+  workflow_run: 
+    workflows: ["build_artifacts"]
   # Trigger the workflow on push or pull request
   pull_request:
     branches:
@@ -13,9 +15,45 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '👋 Thanks for reporting!'
-            })
+           let counter = 0;
+           const intervalId = setInterval(async () => {
+              ++counter;
+              var workflows = await github.rest.actions.listWorkflowRunsForRepo({
+                         owner: context.repo.owner,
+                         repo: context.repo.repo,
+                         branch: context.payload.pull_request.head.ref,
+                         per_page: 100,
+                         actor: context.payload.sender.login
+                      });
+              const buildArtifactWorkflows = workflows.data.workflow_runs.filter(workflow => 
+                  workflow.name === 'build_artifacts');
+              if (buildArtifactWorkflows[0].status !== 'completed') {
+                  if (counter >= 15) {
+                      clearInterval(intervalId);
+                  } else {
+                      console.log('Sleeping for 5 seconds, will retry after 5 seconds.');
+                  }
+              } else {
+                  clearInterval(intervalId);
+                  var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+                       owner: context.repo.owner,
+                       repo: context.repo.repo,
+                       run_id: buildArtifactWorkflows[0].id
+                    });
+                    var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
+                      return artifact.name === `testcases-artifact-${context.issue.number}`
+                    })[0];
+                    var downloadResponse = await github.rest.actions.downloadArtifact({
+                       owner: context.repo.owner,
+                       repo: context.repo.repo,
+                       artifact_id: matchArtifact.id,
+                       archive_format: 'zip'
+                    });
+                    await github.rest.issues.createComment({
+                      issue_number: context.issue.number,
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      body: `Unit Test cases for this PR are generated. Click [here](${downloadResponse.url}) to download the testcases.`
+                    });
+              }
+           }, 5000);         

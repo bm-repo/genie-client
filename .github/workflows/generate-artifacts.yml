@@ -1,0 +1,26 @@
+name: build_artifacts
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build_artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generating tests
+        uses: actions/checkout@v3
+      - run: mkdir -p path/to/artifact
+      - run: echo hello1 > path/to/artifact/test_file1.txt
+      - run: echo hello2 > path/to/artifact/test_file2.txt
+      - run: echo ${{secrets.GITHUB_TOKEN}}
+      
+      - name: Tar test files
+        run: tar -cvf ${{github.event.number}}_tests.tar path/to/artifact
+
+      - name: Upload test files as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: testcases-artifact-${{github.event.number}}
+          path: ${{github.event.number}}_tests.tar 
