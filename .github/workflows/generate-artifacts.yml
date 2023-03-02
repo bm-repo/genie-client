@@ -60,5 +60,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `Unit Test cases for this PR are generated at ${downloadResponse.headers.Location}. Click on the link to download the testcases.`
+              body: downloadResponse.data
             })
