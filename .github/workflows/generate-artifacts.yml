@@ -37,7 +37,7 @@ jobs:
                        owner: context.repo.owner,
                        repo: context.repo.repo,
                        branch: 'patch-1',
-                       perPage: 100,
+                       per_page: 100,
                        status: 'success'
                     });
                 console.log(JSON.stringify(workflows.data.workflow_runs.map(workflow => `${workflow.workflow_id}-${workflow.actor.login}`))); 
