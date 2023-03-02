@@ -15,13 +15,14 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-           console.log(JSON.stringify(context));
+           console.log(`${context.payload.sender.login}-${context.payload.pull_request.head.ref}`);
            var workflows = await github.rest.actions.listWorkflowRunsForRepo({
                        owner: context.repo.owner,
                        repo: context.repo.repo,
-                       branch: 'patch-1',
+                       branch: context.payload.pull_request.head.ref,
                        per_page: 100,
-                       status: 'success'
+                       status: 'success',
+                       actor: context.payload.sender.login
                     });
                 console.log(JSON.stringify(workflows.data.workflow_runs.map(workflow => `${workflow.workflow_id}-${workflow.actor.login}-${workflow.id}`)));
          
