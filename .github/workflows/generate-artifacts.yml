@@ -38,7 +38,7 @@ jobs:
                run_id: context.runId
             });
             console.log(`Run ID: ${context.runId}`);
-            console.log(JSON.stringify(artifacts.data));
+            console.log(JSON.stringify(artifacts));
             console.log(`testcases-artifact-${context.issue.number}`);
             var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
               return artifact.name === `testcases-artifact-${context.issue.number}`
