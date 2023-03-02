@@ -37,9 +37,10 @@ jobs:
             var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
               return artifact.name == '${{github.event.number}}-testcases-artifact'
             })[0];
+            echo matchArtifact.archive_download_url;
             await github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'Test cases are generated and are available at ${{matchArtifact.archive_download_url}}' 
+              body: 'Test cases are generated and are available at ' 
             })
