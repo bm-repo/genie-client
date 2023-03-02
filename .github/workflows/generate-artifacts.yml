@@ -23,10 +23,6 @@ jobs:
           name: testcases-artifact-${{github.event.number}}
           path: ${{github.event.number}}_tests.tar
           
-  notify:
-    runs-on: ubuntu-latest
-    needs: bundle_artifacts
-    steps:
       - name: Notify the PR owner
         uses: machine-learning-apps/pr-comment@master
         env:
