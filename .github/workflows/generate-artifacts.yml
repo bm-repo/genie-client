@@ -62,6 +62,6 @@ jobs:
                     console.log(JSON.stringify(error));
                   }
                   if (times >= 10) {
-                    clearInterval(id);
+                    clearInterval(id); 
                   }
                 }, 2000);
