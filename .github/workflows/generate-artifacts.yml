@@ -37,4 +37,4 @@ jobs:
                        owner: context.repo.owner,
                        repo: context.repo.repo
                     });
-                console.log(JSON.stringify(workflows));
+                console.log(JSON.stringify(workflows)); 
