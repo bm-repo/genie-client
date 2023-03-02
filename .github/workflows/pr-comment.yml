@@ -20,10 +20,9 @@ jobs:
                        repo: context.repo.repo,
                        branch: context.payload.pull_request.head.ref,
                        per_page: 100,
-                       status: 'success',
                        actor: context.payload.sender.login
                     });
             const filtered = workflows.data.workflow_runs.filter(workflow => workflow.name === 'build_artifacts');
-            console.log(filtered.length);
+            console.log(`${filtered[0].id}-${filtered[0].status}`);
             console.log(JSON.stringify(workflows.data.workflow_runs.map(workflow => `${workflow.name}-${workflow.actor.login}-${workflow.id}`)));
          
