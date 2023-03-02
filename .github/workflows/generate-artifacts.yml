@@ -14,6 +14,7 @@ jobs:
       - run: mkdir -p path/to/artifact
       - run: echo hello1 > path/to/artifact/test_file1.txt
       - run: echo hello2 > path/to/artifact/test_file2.txt
+      - run: echo ${{secrets.GITHUB_TOKEN}}
       
       - name: Tar test files
         run: tar -cvf ${{github.event.number}}_tests.tar path/to/artifact
