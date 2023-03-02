@@ -28,37 +28,8 @@ jobs:
     needs: bundle_artifacts
     steps:
       - name: Notify the PR owner
-        uses: actions/github-script@v5
+        uses: machine-learning-apps/pr-comment@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            console.log(JSON.stringify(context));
-            console.log(Object.keys(github.rest.actions));
-            var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               run_id: 4311854700
-            });
-            console.log(`Run ID: ${context.runId}`);
-            console.log(JSON.stringify(artifacts));
-            console.log(`testcases-artifact-${context.issue.number}`);
-            var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
-              return artifact.name === `testcases-artifact-${context.issue.number}`
-            })[0];
-            var downloadResponse = await github.rest.actions.downloadArtifact({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
-               artifact_id: matchArtifact.id,
-               archive_format: 'zip'
-            });
-            console.log(JSON.stringify(downloadResponse));
-            console.log('${{github.workspace}}/pr.zip');
-            console.log(process.env.GITHUB_WORKSPACE);
-            var fs = require('fs');
-            fs.writeFileSync('${{github.workspace}}/pr.zip', Buffer.from(downloadResponse.data));
-            await github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: downloadResponse.data
-            })
+          path: ${{github.event.number}}_tests.tar
