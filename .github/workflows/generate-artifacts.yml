@@ -20,5 +20,5 @@ jobs:
       - name: Upload test files as artifact
       - uses: actions/upload-artifact@v3
         with:
-          name: testcases-artifact
+          name: ${{github.event.number}}-testcases-artifact
           path: ${{github.event.number}}_tests.tar
