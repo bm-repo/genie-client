@@ -51,5 +51,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: artifacts.artifacts[0].archive_download_url
+              body: `Unit Test cases for this PR are generated at ${matchArtifact.archive_download_url}. Click on the link to download the testcases.`
             })
