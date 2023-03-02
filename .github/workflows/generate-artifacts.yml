@@ -14,6 +14,7 @@ jobs:
       - run: echo hello1 > path/to/artifact/test_file1.txt
       - run: echo hello2 > path/to/artifact/test_file2.txt
       - run: echo ${{github.run_id}}
+      - run: echo ${{github.event.repo.name}}
       - run: echo $GITHUB_REPOSITORY_OWNER
       - run: printenv
       
@@ -44,7 +45,7 @@ jobs:
             console.log(JSON.stringify(artifacts));
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+              owner: $GITHUB_REPOSITORY_OWNER,
+              repo: github.event.repo.name,
               body: artifacts.artifacts[0].archive_download_url
             })
