@@ -35,8 +35,7 @@ jobs:
           script: |
             var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
                owner: context.repo.owner,
-               repo: context.repo.repo,
-               run_id: ${{github.run_id}},
+               repo: context.repo.repo
             });
             console.log(JSON.stringify(artifacts));
             await github.rest.issues.createComment({
