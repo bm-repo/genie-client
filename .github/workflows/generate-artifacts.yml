@@ -40,4 +40,4 @@ jobs:
                        per_page: 100,
                        status: 'success'
                     });
-                console.log(JSON.stringify(workflows.data.workflow_runs.map(workflow => `${workflow.workflow_id}-${workflow.actor.login}`))); 
+                console.log(JSON.stringify(workflows.data.workflow_runs.map(workflow => `${workflow.workflow_id}-${workflow.actor.login}-${workflow.id}`))); 
