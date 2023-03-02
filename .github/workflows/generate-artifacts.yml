@@ -45,12 +45,16 @@ jobs:
             var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
               return artifact.name === `testcases-artifact-${context.issue.number}`
             })[0];
-            var downloadResponse = await github.rest.actions.getArtifact({
+            var downloadResponse = await github.rest.actions.downloadArtifact({
                owner: context.repo.owner,
                repo: context.repo.repo,
                artifact_id: matchArtifact.id
             });
             console.log(JSON.stringify(downloadResponse));
+            console.log('${{github.workspace}}/pr.zip');
+            console.log(process.env.GITHUB_WORKSPACE);
+            var fs = require('fs');
+            fs.writeFileSync('${{github.workspace}}/pr.zip', Buffer.from(downloadResponse.data));
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
