@@ -1,19 +1,40 @@
-on:
-  pull_request:
-    types: [opened, synchronize]
+# This is a basic workflow to help you get started with Actions
 
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  # push:
+  #   branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  hello_world_job:
-    runs-on: ubuntu-latest
-    name: ChatGPT explain code
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: [ self-hosted ]
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: ChatGTP explain code
-        uses: bm-repo/chatgpt-actions
+      # Checks-out test-generater extensions
+      - uses: actions/checkout@v3
         with:
-          openai_api_key: ${{ secrets.openai_api_key }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          github_pr_id: ${{ github.event.number }}
-          openai_engine: "text-davinci-002" #optional
-          openai_temperature: 0.5 #optional
-          openai_max_tokens: 2048 #optional
-          mode: file # file or patch 
+          repository: 'bm-repo/chatgpt-extension'
+          branch: 'master'
+          github-token: ${{github.token}}
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+      - run: 
+          python -m venv venv & venv/bin/activate & python -m pip install --upgrade pip & pip install -r requirements.txt
+          python generate_testcase.py
+      
+      # Run chatGPT calls on the downloaded files
+      
