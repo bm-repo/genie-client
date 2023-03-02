@@ -37,13 +37,13 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             console.log(JSON.stringify(github.event));
+            console.log(JSON.stringify(context);
             var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
                owner: context.repo.owner,
                repo: context.repo.repo,
                run_id: 4311737723
             });
             console.log(JSON.stringify(artifacts));
-            console.log(`${context.issue.number} - issue number`);
             var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
               return artifact.name == `testcases-artifact-${context.issue.number}`
             })[0];
