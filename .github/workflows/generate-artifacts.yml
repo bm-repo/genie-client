@@ -24,7 +24,7 @@ jobs:
       - name: Upload test files as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{github.event.number}}-testcases-artifact
+          name: testcases-artifact-${{github.event.number}}
           path: ${{github.event.number}}_tests.tar
           
   notify:
@@ -43,9 +43,13 @@ jobs:
                run_id: 4311737723
             });
             console.log(JSON.stringify(artifacts));
+            console.log(`${context.issue.number} - issue number`);
+            var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == `testcases-artifact-${context.issue.number}`
+            })[0];
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
-              owner: $GITHUB_REPOSITORY_OWNER,
-              repo: github.event.repo.name,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
               body: artifacts.artifacts[0].archive_download_url
             })
