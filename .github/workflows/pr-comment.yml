@@ -15,7 +15,7 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-           console.log(JSON.stringify(context.repo));
+           console.log(JSON.stringify(context));
            var workflows = await github.rest.actions.listWorkflowRunsForRepo({
                        owner: context.repo.owner,
                        repo: context.repo.repo,
