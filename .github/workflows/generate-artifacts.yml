@@ -34,7 +34,6 @@ jobs:
               script: |
                 let times = 0;
                 const id = setInterval(async () => {
-                  console.log(JSON.stringify(context));
                   times += 1;
                   try {
                     var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
