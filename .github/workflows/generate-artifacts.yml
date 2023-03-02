@@ -37,8 +37,10 @@ jobs:
                repo: context.repo.repo,
                run_id: context.runId
             });
+            console.log(JSON.stringify(artifacts.data));
+            console.log(`testcases-artifact-${context.issue.number}`);
             var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
-              return artifact.name == `testcases-artifact-${context.issue.number}`
+              return artifact.name === `testcases-artifact-${context.issue.number}`
             })[0];
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
