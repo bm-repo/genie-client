@@ -30,7 +30,7 @@ jobs:
               const filtered = buildArtifactWorkflows.filter(workflow => workflow.status !== 'success');
               
               if (filtered.length) {
-                  if (count >= 15) {
+                  if (counter >= 15) {
                       clearInterval(intervalId);
                   } else {
                       console.log('Sleeping for 2 seconds, will retry after 2 seconds.');
