@@ -1,5 +1,5 @@
 def fun_func(ip: str) -> str:
-  # addding a comment1
+  # addding a comment2
   if ip == 'input':
     return 'output'
   else:
