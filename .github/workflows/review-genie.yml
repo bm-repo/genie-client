@@ -29,7 +29,7 @@ jobs:
             path: tools
             
       - name: list all the files
-        run: list -a
+        run: ls -a
       
       - name: install python dependencies
         run: 
