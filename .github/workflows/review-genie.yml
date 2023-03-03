@@ -18,12 +18,22 @@ jobs:
     runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: checkout the code
+      - name: checkout the current repo code
         uses: actions/checkout@v3
+        
+      - name: checkout the genie tools
+        uses: actions/checkout@v3
+        with:
+            repository: bm-repo/genie-tool
+            token: ${{secrets.GTOKEN}}
+            path: tools
+            
+      - name: list all the files
+        run: ls -a
       
       - name: install python dependencies
         run: 
-          python3 -m pip install -r requirements.txt
+          python3 -m pip install -r tools/requirements.txt
           
       - name: generate review cases
         env:
@@ -31,4 +41,4 @@ jobs:
           GIT_TOKEN: ${{secrets.GITHUB_TOKEN}}
           GIT_PR_ID: ${{github.event.number}}
           GITHUB_REPOSITORY: ${{ github.repository }}
-        run: python3 generate-review.py
+        run: python3 tools/generate_review.py
