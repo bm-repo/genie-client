@@ -53,7 +53,17 @@ def generate_review():
                 )
     
                 # Adding a comment to the pull request with ChatGPT's response
-                pull_request.create_issue_comment(f"ChatGPT's response about `{file.filename}`:\n {response['choices'][0]['text']}")
+                review_comment = '\n\n'.join( [ x['text'] for x in response['choices'] ] )
+
+                pull_request.create_issue_comment(f"""
+                     <div>
+                         <img src="https://raw.githubusercontent.com/allabakashb/SampleJSON/main/logo.png" width="100px">
+                         <div>
+                            You can improve the code quality by following suggestions for <b>{file.filename}</b>:
+                            {review_comment}
+                         </div>
+                     </div>
+                """)
 
     except Exception as ex:
         print('exception generated', ex.args)
