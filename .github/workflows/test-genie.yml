@@ -36,14 +36,14 @@ jobs:
         run: python3 generate_testcase.py
         
       - name: check tg folder contents
-        run: ls -lrt ./tg
+        run: ls -lrt ./test-genie
         
       - name: Tar test files
-        run: tar -cvf ${{github.event.number}}_tests.tar tg
+        run: tar -cvf testgenie_tests_${{github.event.number}}.tar test-genie
 
       - name: Upload test files as artifact
         uses: actions/upload-artifact@v3
         with:
           name: testcases-artifact-${{github.event.number}}
-          path: ${{github.event.number}}_tests.tar
+          path: testgenie_tests_${{github.event.number}}.tar
           
