@@ -33,12 +33,13 @@ def generate_testcases():
                     temperature=openai_temperature,
                     max_tokens=openai_max_tokens
                 )
-                print(f'test cases generated for "{file}": \n',  {
+                print(f'test cases generated for "{f.filename}": \n',  {
                     response['choices'][0]['text']})
-                with open(f"test-genie/{file}", "w") as ws:
+                    
+                with open(f"test-genie/{f.filename}", "w") as ws:
                     ws.write(response['choices'][0]['text'])
 
-                with open(f"test-genie/{file}") as rs:
+                with open(f"test-genie/{f.filename}") as rs:
                     content = rs.read()
                     print(f"test cases read from the files \n, {content}")
     except Exception as ex:
