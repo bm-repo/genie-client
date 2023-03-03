@@ -31,4 +31,4 @@ jobs:
           GIT_TOKEN: ${{secrets.GITHUB_TOKEN}}
           GIT_PR_ID: ${{github.event.number}}
           GITHUB_REPOSITORY: ${{ github.repository }}
-        run: python3 generate_review.py
+        run: python3 generate-review.py
