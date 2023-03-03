@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: test-generation
 
 # Controls when the workflow will run
 on:
@@ -21,20 +21,26 @@ jobs:
     runs-on: [ self-hosted ]
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out test-generater extensions
-      - uses: actions/checkout@v3
-        with:
-          repository: 'bm-repo/chatgpt-actions'
-          branch: 'master'
-          github-token: ${{github.token}}
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
-          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-      - run: 
-          python -m venv venv & venv/bin/activate & python -m pip install --upgrade pip & pip install -r requirements.txt
-          python generate_testcase.py
+      - name: checkout the code
+        uses: actions/checkout@v3
       
-      # Run chatGPT calls on the downloaded files
+      - name: list the files
+        run: ls -a
+        
+      - name: print the default python version
+        run: python -V
       
+      - name: print the python version
+        run: python3 -V
+      
+      - name: install python dependencies
+        run: 
+          python3 -m pip install -r requirements.txt
+          
+      - name: generate test cases
+        env:
+          OPENAPI_KEY: ${{secrets.OPENAI_API_KEY}}
+          GIT_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GIT_PR_ID: ${{github.event.number}}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python3 generate_testcase.py
