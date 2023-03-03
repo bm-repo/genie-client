@@ -36,6 +36,10 @@ def generate_review():
                     print(f'Review already generated for file {filename}')
                     continue
 
+                if 'src' not in filename:
+                    print(f'{filename} Skipping')
+                    continue
+
                 seen_files.add(filename)
                 content = repo.get_contents(filename, ref=commit.sha).decoded_content
  
