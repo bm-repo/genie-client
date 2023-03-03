@@ -27,6 +27,7 @@ def generate_testcases():
         ## Loop through the commits in the pull request
         commits = pull_request.get_commits()
         
+        seen_files = set()
         for commit in commits:
             files = commit.files
             
@@ -34,10 +35,15 @@ def generate_testcases():
             for file in files:
                 filename = file.filename
                 
-                if not 'python_file' in filename:
-                    print(f'{filename }Not a python file. skipping ')
+                if filename in seen_files:
+                    print(f'Unit tests already generated for file {filename}')
                     continue
 
+                if 'python-files' not in filename:
+                    print(f'{filename } Not a python file. skipping ')
+                    continue
+
+                set.add(filename)
                 content = repo.get_contents(filename, ref=commit.sha).decoded_content
  
                 # Sending the code to ChatGPT
