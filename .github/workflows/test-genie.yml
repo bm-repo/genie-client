@@ -34,3 +34,7 @@ jobs:
           GIT_PR_ID: ${{github.event.number}}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: python3 generate_testcase.py
+        
+      - name: check tg folder contents
+        run: ls -lrt ./tg
+          
