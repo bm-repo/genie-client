@@ -53,7 +53,7 @@ jobs:
                       issue_number: context.issue.number,
                       owner: context.repo.owner,
                       repo: context.repo.repo,
-                      body: `Unit Test cases for this PR are generated. Click [here](${downloadResponse.url}) to download the testcases.`
+                      body: `TestGenie: You can improve code coverage by integrating tests generated. Click [here](${downloadResponse.url}) to download the testcases.`
                     });
               }
            }, 5000);         
