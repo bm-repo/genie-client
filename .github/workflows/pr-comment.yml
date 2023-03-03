@@ -32,7 +32,6 @@ jobs:
                         return startWorkflow();
                     }
                 } else {
-                    clearInterval(intervalId);
                     var artifacts = await github.rest.actions.listWorkflowRunArtifacts({
                          owner: context.repo.owner,
                          repo: context.repo.repo,
