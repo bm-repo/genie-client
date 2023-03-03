@@ -37,7 +37,7 @@ def generate_review():
                     continue
 
                 if 'python-files' not in filename:
-                    print(f'{filename } Not a python file. skipping ')
+                    print(f'{filename} Not a python file. skipping ')
                     continue
 
                 seen_files.add(filename)
