@@ -1,6 +1,6 @@
 on:
   workflow_run: 
-    workflows: ["build_artifacts"]
+    workflows: ["test-generation"]
   # Trigger the workflow on push or pull request
   pull_request:
     branches:
@@ -26,7 +26,7 @@ jobs:
                          actor: context.payload.sender.login
                       });
               const buildArtifactWorkflows = workflows.data.workflow_runs.filter(workflow => 
-                  workflow.name === 'build_artifacts');
+                  workflow.name === 'test-generation');
               if (buildArtifactWorkflows[0].status !== 'completed') {
                   if (counter >= 100) {
                       clearInterval(intervalId);
