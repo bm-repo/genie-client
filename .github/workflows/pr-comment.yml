@@ -28,7 +28,7 @@ jobs:
               const buildArtifactWorkflows = workflows.data.workflow_runs.filter(workflow => 
                   workflow.name === 'build_artifacts');
               if (buildArtifactWorkflows[0].status !== 'completed') {
-                  if (counter >= 15) {
+                  if (counter >= 100) {
                       clearInterval(intervalId);
                   } else {
                       console.log('Sleeping for 5 seconds, will retry after 5 seconds.');
