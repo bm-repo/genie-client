@@ -11,7 +11,7 @@ function getUserData(username, password) {
       console.log(data);
     },
     error: (err) => {
-      console.error(err);
+      console.error(err); 
     }
   });
 }
