@@ -9,7 +9,7 @@ import os
 
 # Authenticating with the OpenAI API
 openai.api_key = os.getenv('OPENAPI_KEY')
-openai_engine = 'text-davinci-003'
+openai_engine = 'code-cushman-001'
 openai_temperature = 1
 openai_max_tokens = 2048
 
