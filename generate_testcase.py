@@ -18,24 +18,26 @@ def generate_testcases():
     try:
         fl_list = glob.glob('python-files/*.py')
         print('file list ', fl_list)
-        
+
         if not os.path.exists('test-genie'):
-            os.makedirs('test-genie')
-            
+            os.makedirs('test-genie')
+
         for file in fl_list:
             with open(file) as f:
                 content = f.read()
-                # Sending the code to ChatGPT
+        		# Sending the code to ChatGPT
                 response = openai.Completion.create(
                     engine=openai_engine,
-                    prompt=(f"Generate unit tests for following code:\n```{content}```"),
+                    prompt=(
+                        f"Generate unit tests for following code:\n```{content}```"),
                     temperature=openai_temperature,
                     max_tokens=openai_max_tokens
                 )
-                print(f'test cases generated for "{file}": \n',  {response['choices'][0]['text']})
+                print(f'test cases generated for "{file}": \n',  {
+                    response['choices'][0]['text']})
                 with open(f"test-genie/{file}", "w") as ws:
                     ws.write(response['choices'][0]['text'])
-                    
+
                 with open(f"test-genie/{file}") as rs:
                     content = rs.read()
                     print(f"test cases read from the files \n, {content}")
