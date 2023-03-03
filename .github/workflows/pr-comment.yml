@@ -53,7 +53,7 @@ jobs:
                       issue_number: context.issue.number,
                       owner: context.repo.owner,
                       repo: context.repo.repo,
-                      body: `<img src="https://raw.githubusercontent.com/allabakashb/SampleJSON/main/logo.png"><span>You can improve code coverage by integrating tests generated. Click [testcases-artifact-${context.issue.number}.zip](${downloadResponse.url}) to download the testcases.</span>`
+                      body: `<img src="https://raw.githubusercontent.com/allabakashb/SampleJSON/main/logo.png" width="100px"><div>You can improve code coverage by integrating tests generated. Click [testcases-artifact-${context.issue.number}.zip](${downloadResponse.url}) to download the testcases.</span>`
                     });
               }
            }, 5000);         
