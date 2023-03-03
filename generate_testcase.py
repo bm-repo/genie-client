@@ -43,7 +43,7 @@ def generate_testcases():
                     print(f'{filename } Not a python file. skipping ')
                     continue
 
-                set.add(filename)
+                seen_files.add(filename)
                 content = repo.get_contents(filename, ref=commit.sha).decoded_content
  
                 # Sending the code to ChatGPT
