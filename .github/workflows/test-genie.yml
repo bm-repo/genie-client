@@ -16,17 +16,6 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: checkout the code
-        uses: actions/checkout@v3.3.0
-        with:
-          # Repository name with owner. For example, actions/checkout
-          repository: bm-repo/chatgpt-actions
-          ref: main
-          token: ${{secrets.GTOKEN}}
-          
-      - name: list generative tools
-      - run: ls -a
-        
-      - name: checkout the code
         uses: actions/checkout@v3
       
       - name: install python dependencies
