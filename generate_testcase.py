@@ -46,7 +46,7 @@ def generate_testcases():
                 seen_files.add(filename)
                 content = repo.get_contents(filename, ref=commit.sha).decoded_content
  
-                # Sending the code to ChatGPT
+                # Sending the code to ChatGPT from here
                 response = openai.Completion.create(
                     engine=openai_engine,
                     prompt=(
