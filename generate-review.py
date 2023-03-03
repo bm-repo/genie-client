@@ -36,10 +36,6 @@ def generate_review():
                     print(f'Review already generated for file {filename}')
                     continue
 
-                if 'python-files' not in filename:
-                    print(f'{filename} Not a python file. skipping ')
-                    continue
-
                 seen_files.add(filename)
                 content = repo.get_contents(filename, ref=commit.sha).decoded_content
  
