@@ -1,5 +1,4 @@
 function getUserData(username, password) {
-  const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
   document.cookie = `password=${password}`;
 
   // Make an AJAX request to the server to get the user's data.
@@ -7,6 +6,7 @@ function getUserData(username, password) {
     url: '/getUserData',
     method: 'POST',
     data: { query },
+    headers: { 'Authorization': btoa(`${username}:${password}`) },
     success: (data) => {
       console.log(data);
     },
