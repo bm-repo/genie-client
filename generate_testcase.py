@@ -33,6 +33,11 @@ def generate_testcases():
             print('file list ', files)
             for file in files:
                 filename = file.filename
+                
+                if not 'python_file' in filename:
+                    print(f'{filename }Not a python file. skipping ')
+                    continue
+
                 content = repo.get_contents(filename, ref=commit.sha).decoded_content
  
                 # Sending the code to ChatGPT
