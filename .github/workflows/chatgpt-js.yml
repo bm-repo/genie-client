@@ -15,16 +15,16 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-          const { Configuration, OpenAIApi } = require("openai");
-          const configuration = new Configuration({  apiKey: process.env.OPENAI_API_KEY,});
-          const openai = new OpenAIApi(configuration);
-          const response = await openai.createCompletion({ 
-            model: "text-davinci-003",
-            prompt: "write unit test cases for following javascript code \nconst getRandomKey = () => {\n  return `${new Date().getTime()}${Math.ceil(Math.random()*100000)}`;\n}\n\n//Test Case 1\nit('should return random key', () => {\n  expect(typeof getRandomKey()).toBe('string');\n});\n\n//Test Case 2\nit('should have time component', () => {\n  expect(getRandomKey().includes(new Date().getTime().toString())).toBeTruthy();\n});\n\n//Test Case 3\nit('should have random component', () => {\n  expect(getRandomKey().includes(Math.ceil(Math.random()*100000).toString())).toBeTruthy();\n});",
-            temperature: 0.71,
-            max_tokens: 4000,
-            top_p: 1,
-            frequency_penalty: 0,
-            presence_penalty: 0,
-            });
-            console.log(JSON.stringify(response));
+            const { Configuration, OpenAIApi } = require("openai");
+            const configuration = new Configuration({  apiKey: process.env.OPENAI_API_KEY,});
+            const openai = new OpenAIApi(configuration);
+            const response = await openai.createCompletion({ 
+              model: "text-davinci-003",
+              prompt: "write unit test cases for following javascript code \nconst getRandomKey = () => {\n  return `${new Date().getTime()}${Math.ceil(Math.random()*100000)}`;\n}\n\n//Test Case 1\nit('should return random key', () => {\n  expect(typeof getRandomKey()).toBe('string');\n});\n\n//Test Case 2\nit('should have time component', () => {\n  expect(getRandomKey().includes(new Date().getTime().toString())).toBeTruthy();\n});\n\n//Test Case 3\nit('should have random component', () => {\n  expect(getRandomKey().includes(Math.ceil(Math.random()*100000).toString())).toBeTruthy();\n});",
+              temperature: 0.71,
+              max_tokens: 4000,
+              top_p: 1,
+              frequency_penalty: 0,
+              presence_penalty: 0,
+              });
+              console.log(JSON.stringify(response));
