@@ -16,14 +16,11 @@ openai_max_tokens = 2048
 
 g = Github(os.getenv('GIT_TOKEN'))
 
-def generate_testcases():
+def generate_review():
     try:
         repo = g.get_repo(os.getenv('GITHUB_REPOSITORY'))
         pull_request = repo.get_pull(int(os.getenv('GIT_PR_ID')))
         
-        if not os.path.exists('test-genie'):
-            os.makedirs('test-genie')
- 
         ## Loop through the commits in the pull request
         commits = pull_request.get_commits()
         
@@ -36,11 +33,11 @@ def generate_testcases():
                 filename = file.filename
                 
                 if filename in seen_files:
-                    print(f'Unit tests already generated for file {filename}')
+                    print(f'Review already generated for file {filename}')
                     continue
 
                 if 'src' not in filename:
-                    print(f'{filename } Skipping ')
+                    print(f'{filename} Skipping')
                     continue
 
                 seen_files.add(filename)
@@ -50,23 +47,18 @@ def generate_testcases():
                 response = openai.Completion.create(
                     engine=openai_engine,
                     prompt=(
-                        f"Generate unit tests for following code:\n```{content}```"),
+                        f"Review the following code in terms of best practices:\n```{content}```"),
                     temperature=openai_temperature,
                     max_tokens=openai_max_tokens
                 )
-                
-                print(f'test cases generated for "{filename}": \n',  {
-                    response['choices'][0]['text']})
-                
-                test_file_name = 'test_' + filename.split('/')[-1]
-                with open(f"test-genie/{test_file_name}", "w") as ws:
-                    ws.write(response['choices'][0]['text'])
+    
+                # Adding a comment to the pull request with ChatGPT's response
+                print(response['choices'])
+                review_comment = '\n\n'.join( [ x['text'] for x in response['choices'] ] )
 
-                with open(f"test-genie/{test_file_name}") as rs:
-                    content = rs.read()
-                    print(f"test cases read from the files \n, {content}")
+                pull_request.create_issue_comment(f'<img src="https://raw.githubusercontent.com/allabakashb/SampleJSON/main/logo.png" width="100px"><div>You can improve the code quality by following suggestions for <b>{file.filename}</b>:{review_comment}</div>')
+
     except Exception as ex:
         print('exception generated', ex.args)
 
-
-generate_testcases()
+generate_review()
