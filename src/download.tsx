@@ -7,5 +7,5 @@ export const downloadFile = async (props: DownloadProps) => {
     link.setAttribute(downloadAttr, props.fileName);
     document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link);
+    document.body.removeChild(link); 
 }
