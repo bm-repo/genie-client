@@ -39,7 +39,7 @@ jobs:
           
       - name: generate test cases
         env:
-          OPENAPI_KEY: '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'
+          OPENAPI_KEY: ${{secrets.OPENAI_API_KEY}}
           GIT_TOKEN: ${{secrets.GITHUB_TOKEN}}
           GIT_PR_ID: ${{github.event.number}}
           GITHUB_REPOSITORY: ${{ github.repository }}
