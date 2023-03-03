@@ -33,10 +33,9 @@ def generate_testcases():
             print('file list ', files)
             for file in files:
                 filename = file.filename
-                print(filename)
                 content = repo.get_contents(filename, ref=commit.sha).decoded_content
  
-        		# Sending the code to ChatGPT
+                # Sending the code to ChatGPT
                 response = openai.Completion.create(
                     engine=openai_engine,
                     prompt=(
@@ -47,11 +46,12 @@ def generate_testcases():
                 
                 print(f'test cases generated for "{filename}": \n',  {
                     response['choices'][0]['text']})
-                    
-                with open(f"test-genie/{filename}", "w") as ws:
+                
+                test_file_name = 'test_' + filename.split('/')[-1]
+                with open(f"test-genie/{test_file_name}", "w") as ws:
                     ws.write(response['choices'][0]['text'])
 
-                with open(f"test-genie/{filename}") as rs:
+                with open(f"test-genie/{test_file_name}") as rs:
                     content = rs.read()
                     print(f"test cases read from the files \n, {content}")
     except Exception as ex:
