@@ -14,12 +14,12 @@ openai_engine = 'text-davinci-003'
 openai_temperature = 0.5
 openai_max_tokens = 4000
 
-g = Github(os.getenv('GITHUB_TOKEN'))
+g = Github(os.getenv('GIT_TOKEN'))
 
 def generate_testcases():
     try:
         repo = g.get_repo(os.getenv('GITHUB_REPOSITORY'))
-        pull_request = repo.get_pull(int(os.getenv('GITHUB_PR_ID')))
+        pull_request = repo.get_pull(int(os.getenv('GIT_PR_ID')))
         
         if not os.path.exists('test-genie'):
             os.makedirs('test-genie')
