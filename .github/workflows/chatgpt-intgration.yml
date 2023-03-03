@@ -21,15 +21,6 @@ jobs:
       - name: checkout the code
         uses: actions/checkout@v3
       
-      - name: list the files
-        run: ls -a
-        
-      - name: print the default python version
-        run: python -V
-      
-      - name: print the python version
-        run: python3 -V
-      
       - name: install python dependencies
         run: 
           python3 -m pip install -r requirements.txt
