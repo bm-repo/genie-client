@@ -25,7 +25,8 @@ def generate_testcases():
         for file in fl_list:
             with open(file) as f:
                 content = f.read()
-        		# Sending the code to ChatGPT
+                
+                # Sending the code to ChatGPT
                 response = openai.Completion.create(
                     engine=openai_engine,
                     prompt=(
