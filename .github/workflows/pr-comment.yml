@@ -40,13 +40,14 @@ jobs:
                     var matchArtifact = artifacts.data.artifacts.filter((artifact) => {
                       return artifact.name === `testcases-artifact-${context.issue.number}`
                     })[0];
+                    console.log(JSON.stringify(matchArtifact));
                     var downloadResponse = await github.rest.actions.downloadArtifact({
                        owner: context.repo.owner,
                        repo: context.repo.repo,
                        artifact_id: matchArtifact.id,
                        archive_format: 'zip'
                     });
-                    const note = `<b>Note:</b> In case link is expired, You can download it under <b>Artifacts</b> section at [test-generation](https://github.com/bm-repo/genie-client/actions/runs/${matchArtifact.id}/)`;
+                    const note = `<b>Note:</b> In case link is expired, You can download it under <b>Artifacts</b> section at [test-generation](https://github.com/bm-repo/genie-client/actions/runs/${matchArtifact.runId}/)`;
                     await github.rest.issues.createComment({
                       issue_number: context.issue.number,
                       owner: context.repo.owner,
