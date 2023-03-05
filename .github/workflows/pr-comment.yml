@@ -47,7 +47,7 @@ jobs:
                        artifact_id: matchArtifact.id,
                        archive_format: 'zip'
                     });
-                    const note = `<b>Note:</b> In case link is expired, You can download it under <b>Artifacts</b> section at [test-generation](https://github.com/bm-repo/genie-client/actions/runs/${matchArtifact.runId}/)`;
+                    const note = `<b>Note:</b> In case link is expired, You can download it under <b>Artifacts</b> section at [test-generation](https://github.com/bm-repo/genie-client/actions/runs/${matchArtifact.workflow_run.id}/)`;
                     await github.rest.issues.createComment({
                       issue_number: context.issue.number,
                       owner: context.repo.owner,
